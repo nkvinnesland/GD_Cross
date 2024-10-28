@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 # Replace with your actual Alpha Vantage API key
-ALPHA_VANTAGE_API_KEY = "3C4SLOA7SZXRFH0V"
+ALPHA_VANTAGE_API_KEY = "your key here"
 
 def get_alpha_vantage_data(function, symbol, interval, time_period, series_type):
     url = "https://www.alphavantage.co/query"
