@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Models</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/images/modelsimage.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: auto;
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .navbar a {
+            color: #00bfff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 5em;
+            padding-bottom: 2em; /* Added padding to ensure space at the bottom */
+            width: 100%;
+        }
+        h2 {
+            font-size: 3em;
+            margin-bottom: 1em;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 1.5em;
+            margin: 1em 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 800px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.05); /* Slightly enlarges the container */
+            cursor: pointer; /* Changes the cursor to pointer */
+        }
+        .container h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: #00bfff;
+        }
+        .container p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin: 0.5em 0;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: whitesmoke;
+            display: none;
+        }
+        .container.expanded p {
+            display: block;
+        }
+        .try-model-btn {
+            display: none; /* Hide button initially */
+            margin-top: 1em;
+            padding: 0.75em 1.5em;
+            font-size: 1.2em;
+            color: white;
+            background-color: #00bfff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .container.expanded .try-model-btn {
+            display: inline-block; /* Show button when container is expanded */
+        }
+        .try-model-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/models">Available Models</a>
+        <a href="/contact">Contact</a>
+        <a href="/resource">Resources</a>
+    </div>
+    <div class="content">
+        <h2>Available Models</h2>
+
+        <div class="container">
+            <h3>Model 1: XDetect Alpha</h3>
+            <p>Description: Analyzes historical SMA, TEMA, and adjusted price value data to predict future golden and death crosses.</p>
+            <p><strong>Adjusted Value Data:</strong> refers to the historical price data of a security that has been modified to reflect the impact of any corporate actions such as dividends, stock splits, and new share issuances. Unlike raw price data, which only shows the actual trading prices at specific times, adjusted value data provides a more accurate representation of a security's value over time by accounting for these events. This adjustment ensures that the price changes due to corporate actions are reflected appropriately, allowing for better analysis and comparison of historical performance. Investors and analysts use adjusted value data to make more informed decisions as it offers a truer picture of a security's price movements and overall returns.</p> 
+            <p><strong>Simple Moving Average (SMA):</strong> The SMA is the average price of a security over a specified number of periods. It is calculated by adding the closing prices for a set number of time periods and then dividing this total by the number of time periods.</p>
+            <p><strong>Triple Exponential Moving Average (TEMA):</strong> The TEMA is an even more advanced form of the EMA that further reduces the lag by taking into account the EMA of the EMA of the EMA, providing a very responsive indicator.</p>
+            <p><strong>Golden Cross:</strong> The golden cross is a bullish signal that occurs when a short-term moving average crosses above a long-term moving average, indicating the potential for a major rally.</p>
+            <p><strong>Death Cross:</strong> The death cross is a bearish signal that occurs when a short-term moving average crosses below a long-term moving average, suggesting the potential for a significant downturn.</p>
+            <button class="try-model-btn" onclick="location.href='/try-model'">Try Model</button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.container').forEach(container => {
+            container.addEventListener('click', () => {
+                container.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

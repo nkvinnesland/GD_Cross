@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .navbar a {
+            color: #00bfff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            transition: background-color 0.3s ease;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2em;
+            width: 100%;
+            margin-top: 6em;
+        }
+        details {
+            width: 90%;
+            margin-bottom: 2em;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        summary {
+            background-color: #282828;
+            padding: 1em;
+            cursor: pointer;
+            font-size: 1.5em;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: white;
+            list-style: none;
+            transition: background-color 0.3s ease;
+        }
+        details:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+        }
+        summary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .section {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .table-container {
+            width: 50%;
+            padding-right: 1em;
+        }
+        .chart-container {
+            width: 50%;
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 1em;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 0.5em;
+            text-align: center;
+        }
+        th {
+            background-color: #00bfff;
+            color: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/models">Available Models</a>
+        <a href="/contact">Contact</a>
+        <a href="/resource">Resources</a>
+    </div>
+    <div class="content">
+        <details>
+            <summary>SMA Data</summary>
+            <div class="section">
+                <div class="table-container">
+                    <h2>Golden and Death Crosses for {{ ticker }} (SMA)</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>5-day SMA</th>
+                            <th>20-day SMA</th>
+                        </tr>
+                        {% for date, type, sma_5, sma_20 in sma_crosses %}
+                        <tr>
+                            <td>{{ date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ type }}</td>
+                            <td>{{ sma_5 }}</td>
+                            <td>{{ sma_20 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <h2>Chart (SMA)</h2>
+                    <img src="{{ sma_image_path }}" alt="SMA Chart">
+                </div>
+            </div>
+        </details>
+        <details>
+            <summary>EMA Data</summary>
+            <div class="section">
+                <div class="table-container">
+                    <h2>Golden and Death Crosses for {{ ticker }} (EMA)</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>5-day EMA</th>
+                            <th>20-day EMA</th>
+                        </tr>
+                        {% for date, type, ema_5, ema_20 in ema_crosses %}
+                        <tr>
+                            <td>{{ date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ type }}</td>
+                            <td>{{ ema_5 }}</td>
+                            <td>{{ ema_20 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <h2>Chart (EMA)</h2>
+                    <img src="{{ ema_image_path }}" alt="EMA Chart">
+                </div>
+            </div>
+        </details>
+        <details>
+            <summary>WMA Data</summary>
+            <div class="section">
+                <div class="table-container">
+                    <h2>Golden and Death Crosses for {{ ticker }} (WMA)</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>5-day WMA</th>
+                            <th>20-day WMA</th>
+                        </tr>
+                        {% for date, type, wma_5, wma_20 in wma_crosses %}
+                        <tr>
+                            <td>{{ date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ type }}</td>
+                            <td>{{ wma_5 }}</td>
+                            <td>{{ wma_20 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <h2>Chart (WMA)</h2>
+                    <img src="{{ wma_image_path }}" alt="WMA Chart">
+                </div>
+            </div>
+        </details>
+        <details>
+            <summary>DEMA Data</summary>
+            <div class="section">
+                <div class="table-container">
+                    <h2>Golden and Death Crosses for {{ ticker }} (DEMA)</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>5-day DEMA</th>
+                            <th>20-day DEMA</th>
+                        </tr>
+                        {% for date, type, dema_5, dema_20 in dema_crosses %}
+                        <tr>
+                            <td>{{ date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ type }}</td>
+                            <td>{{ dema_5 }}</td>
+                            <td>{{ dema_20 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <h2>Chart (DEMA)</h2>
+                    <img src="{{ dema_image_path }}" alt="DEMA Chart">
+                </div>
+            </div>
+        </details>
+        <details>
+            <summary>TEMA Data</summary>
+            <div class="section">
+                <div class="table-container">
+                    <h2>Golden and Death Crosses for {{ ticker }} (TEMA)</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>5-day TEMA</th>
+                            <th>20-day TEMA</th>
+                        </tr>
+                        {% for date, type, tema_5, tema_20 in tema_crosses %}
+                        <tr>
+                            <td>{{ date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ type }}</td>
+                            <td>{{ tema_5 }}</td>
+                            <td>{{ tema_20 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <h2>Chart (TEMA)</h2>
+                    <img src="{{ tema_image_path }}" alt="TEMA Chart">
+                </div>
+            </div>
+        </details>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/images/resourceimage.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: white;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .navbar a {
+            color: #00bfff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: adds a dark overlay to enhance readability */
+            padding-top: 5em;
+        }
+        h2 {
+            font-size: 3em;
+            margin-bottom: 1em;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+        }
+        .resources {
+            margin: 2em 0;
+        }
+        .resources a {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+            color: #00bfff;
+            text-decoration: none;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
+        }
+        .resources a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/models">Available Models</a>
+        <a href="/contact">Contact</a>
+        <a href="/resources">Resources</a>        
+    </div>
+    <div class="content">
+        <h2>Financial Resources</h2>
+        <div class="resources">
+            <p><a href="https://www.khanacademy.org/economics-finance-domain/core-finance" target="_blank">Khan Academy: Core Finance</a></p>
+            <p><a href="https://www.sec.gov/investor/pubs/begininvest.htm" target="_blank">U.S. Securities and Exchange Commission: Beginners' Guide to Investing</a></p>
+            <p><a href="https://www.nytimes.com/section/business/economy" target="_blank">New York Times: Business</a></p>
+        </div>
+    </div>
+</body>
+</html>
+

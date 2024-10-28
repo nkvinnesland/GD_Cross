@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/images/try-model.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .navbar a {
+            color: #00bfff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 6em;
+            padding-bottom: 2em;
+            width: 100%;
+        }
+        h2 {
+            font-size: 3em;
+            margin-bottom: 1em;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 1px #00bfff, 0 0 5px #00bfff;
+            color: white;
+        }
+        .booting-up p {
+            font-size: 1.5em;
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .booting-up p.visible {
+            opacity: 1;
+        }
+        .booting-up p.hidden {
+            opacity: 0;
+        }
+        .model-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 75%;
+            max-width: 800px;
+            margin-top: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .model-container label {
+            font-size: 1.2em;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            display: block;
+            margin-bottom: 0.5em;
+        }
+        .model-container input {
+            width: 100%;
+            padding: 0.5em;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 1em;
+        }
+        .model-container button {
+            padding: 0.75em 1.5em;
+            font-size: 1.2em;
+            color: white;
+            background-color: #00bfff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 2.5em;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 15px #00bfff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .model-container button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        /* Loading bar styles */
+        .loading-bar-container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 1em; /* Adjust the margin to place it below the model container */
+            height: 10px;
+        }
+        .loading-bar {
+            width: 0;
+            height: 100%;
+            background-color: #00bfff;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/models">Available Models</a>
+        <a href="/contact">Contact</a>
+        <a href="/resource">Resources</a>
+    </div>
+    <div class="content">
+        <h2>XDetect Alpha</h2>
+        <div class="booting-up" id="bootSequence">
+            <p>Loading Data Modules...</p>
+            <p>Configuring Market Scanner...</p>            
+            <p>Initializing Cross Analysis Protocols...</p>
+            <p>Initialization Complete</p>
+        </div>
+        <div class="model-container" id="modelInterface" style="display: none;">
+            <form id="modelForm" action="/run-model" method="post">
+                <label for="ticker">Enter Ticker Symbol:</label>
+                <input type="text" id="ticker" name="ticker" required>
+                <button type="submit">Run Model</button>
+            </form>
+        </div>
+        <!-- Loading bar -->
+        <div class="loading-bar-container" id="loadingBarContainer">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bootSequence = document.getElementById('bootSequence').children;
+            let delay = 0;
+
+            Array.from(bootSequence).forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('visible');
+                    setTimeout(() => {
+                        element.classList.remove('visible');
+                        element.classList.add('hidden');
+                    }, 2000);
+                }, delay);
+                delay += 2000;
+            });
+
+            setTimeout(() => {
+                document.getElementById('modelInterface').style.display = 'block';
+                document.getElementById('bootSequence').style.display = 'none';
+                console.log('Boot sequence completed. Model form is now visible.');
+            }, delay + 1000);
+        });
+
+        document.getElementById('modelForm').addEventListener('submit', function(event) {
+            const form = event.target;
+            event.preventDefault();
+            const ticker = document.getElementById('ticker').value;
+            console.log('Form submitted with ticker:', ticker); // Log the form submission
+
+            // Show the loading bar
+            const loadingBarContainer = document.getElementById('loadingBarContainer');
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBarContainer.style.display = 'block';
+
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 90) {
+                    clearInterval(interval);
+                } else {
+                    width += 10;
+                    loadingBar.style.width = width + '%';
+                }
+            }, 300);
+
+            form.submit();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
